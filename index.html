@@ -1,311 +1,224 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grupo Ferret - Excelente calidad en productos</title>
+    <title>Grupo Ferret - Catálogo Profesional de Herramientas y Equipos</title>
+    <meta name="description" content="Catálogo profesional de sets de herramientas manuales y equipos inalámbricos. Envíos en Costa Rica y encomiendas a Nicaragua.">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        industrialBlue: '#0A192F', // Azul marino corporativo
-                        deepBlue: '#061020',
-                        neonGreen: '#10B981',      // Verde neón elegante y llamativo
-                        neonAccent: '#34D399',
+                        brandDark: '#0A192F',
+                        brandGreen: '#10B981',
                     }
                 }
             }
         }
     </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes pulse-subtle {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        .anim-pulse { animation: pulse-subtle 0.25s ease-in-out; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .producto-card { transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+        @media (min-width: 768px) {
+            .producto-card:hover {
+                transform: translateY(-6px);
+                border-color: rgba(16, 185, 129, 0.5);
+                box-shadow: 0 20px 30px -10px rgba(16, 185, 129, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+            }
+        }
+    </style>
 </head>
-<body class="bg-deepBlue text-slate-100 font-sans antialiased">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans selection:bg-brandGreen selection:text-slate-950 pb-48">
 
-    <!-- Barra Superior de Información -->
-    <div class="bg-industrialBlue border-b border-blue-900/60 text-xs py-2 px-4">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2 text-slate-300">
-            <div class="flex flex-wrap justify-center items-center gap-4">
-                <span><i class="fa-solid fa-location-dot text-neonGreen mr-1"></i> San Ramón de Alajuela, CR</span>
-                <span><i class="fa-regular fa-clock text-neonGreen mr-1"></i> Lunes a Sábado: 7:00 a.m. - 5:00 p.m.</span>
-                <span class="hidden sm:inline"><i class="fa-solid fa-envelope text-neonGreen mr-1"></i> grupoferret123@gmail.com</span>
-            </div>
-            <div class="text-neonAccent font-semibold text-center">
-                <i class="fa-solid fa-truck-fast mr-1"></i> Envíos por encomienda a toda Costa Rica y por bus a Nicaragua
-            </div>
-        </div>
-    </div>
-
-    <!-- Navegación Principal -->
-    <header class="sticky top-0 z-40 bg-industrialBlue/95 backdrop-blur-md border-b border-blue-900/50 shadow-lg">
-        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+    <!-- Header Superior Estilo E-commerce Corporativo -->
+    <header class="bg-brandDark/95 backdrop-blur-md border-b border-slate-800/90 sticky top-0 z-50 shadow-2xl">
+        <div class="max-w-7xl mx-auto px-4 py-3.5 flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <div class="bg-gradient-to-br from-neonGreen to-emerald-600 text-industrialBlue font-black text-xl w-10 h-10 rounded-lg flex items-center justify-center shadow-lg shadow-neonGreen/20">
-                    <i class="fa-solid fa-wrench"></i>
-                </div>
-                <div>
-                    <span class="text-2xl font-black tracking-wider uppercase text-white block leading-none">Grupo <span class="text-neonGreen">Ferret</span></span>
-                    <span class="text-[11px] text-slate-400 tracking-wide">Excelente calidad en productos</span>
-                </div>
-            </div>
-
-            <nav class="hidden md:flex items-center gap-6 font-medium text-sm text-slate-300">
-                <a href="#catalogo" class="hover:text-neonGreen transition">Catálogo</a>
-                <a href="#envios" class="hover:text-neonGreen transition">Envíos y Cobertura</a>
-                <a href="#contacto" class="hover:text-neonGreen transition">Contacto</a>
-            </nav>
-
-            <div class="flex items-center gap-3">
-                <!-- Botón del Carrito de Cotización -->
-                <button onclick="toggleCarrito()" class="relative bg-blue-950 border border-blue-800 hover:border-neonGreen text-white px-3 py-2 rounded-lg transition flex items-center gap-2 text-sm">
-                    <i class="fa-solid fa-cart-shopping text-neonGreen"></i>
-                    <span class="hidden sm:inline font-semibold">Lista</span>
-                    <span id="contador-carrito" class="bg-neonGreen text-industrialBlue font-black text-xs px-1.5 py-0.5 rounded-full">0</span>
+                <button onclick="toggleMenuLateral()" class="bg-slate-900 border border-slate-800 p-2.5 rounded-xl text-brandGreen hover:bg-slate-800 transition-all shadow">
+                    ☰
                 </button>
-
-                <!-- Botón Directo WhatsApp -->
-                <a href="https://wa.me/50664101850?text=Hola%20Grupo%20Ferret,%20quisiera%20hacer%20una%20consulta%20sobre%20sus%20herramientas." target="_blank" class="bg-neonGreen text-industrialBlue font-bold px-4 py-2 rounded-lg hover:bg-neonAccent transition shadow-md shadow-neonGreen/20 flex items-center gap-2 text-sm">
-                    <i class="fa-brands fa-whatsapp text-lg"></i> <span class="hidden sm:inline">+506 6410 1850</span>
+                <div class="flex items-center gap-2.5">
+                    <div class="bg-brandGreen text-slate-950 p-2 rounded-xl font-black text-lg shadow-md shadow-brandGreen/20">🛠️</div>
+                    <div>
+                        <h1 class="text-sm sm:text-base font-black tracking-wider text-white leading-tight">GRUPO FERRET</h1>
+                        <p class="text-[10px] text-slate-400 font-medium">San Ramón, Costa Rica</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-2">
+                <a href="https://wa.me/50664101850?text=Hola,%20necesito%20asesoría%20técnica%20especializada" target="_blank" class="bg-brandGreen hover:bg-emerald-600 text-slate-950 font-extrabold px-4 py-2.5 rounded-xl text-xs flex items-center gap-1.5 shadow-lg shadow-brandGreen/15 active:scale-95">
+                    💬 WhatsApp Directo
                 </a>
             </div>
         </div>
     </header>
 
-    <!-- Sección Principal (Hero) -->
-    <section class="relative bg-gradient-to-b from-industrialBlue via-blue-950/40 to-deepBlue py-16 px-4 border-b border-blue-900/40">
-        <div class="max-w-5xl mx-auto text-center">
-            <span class="bg-neonGreen/10 text-neonAccent border border-neonGreen/30 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider">
-                San Ramón de Alajuela • Envíos a CR y Nicaragua
-            </span>
-            <h1 class="text-4xl md:text-6xl font-black mt-5 mb-5 tracking-tight text-white">
-                Equipamiento y Herramientas de <span class="text-transparent bg-clip-text bg-gradient-to-r from-neonGreen to-cyan-400">Alto Rendimiento</span>
-            </h1>
-            <p class="text-slate-300 text-base md:text-lg max-w-2xl mx-auto mb-8">
-                Excelente calidad en sets de herramientas manuales y equipos inalámbricos a batería. Pedidos rápidos contra consulta directamente por WhatsApp.
-            </p>
-            <div class="flex flex-wrap justify-center gap-4">
-                <a href="#catalogo" class="bg-neonGreen text-industrialBlue font-bold px-8 py-3.5 rounded-xl hover:bg-neonAccent transition shadow-lg shadow-neonGreen/25">
-                    Explorar Catálogo
-                </a>
-                <a href="https://wa.me/50664101850?text=Hola%20Grupo%20Ferret,%20deseo%20cotizar%20herramientas." target="_blank" class="border border-blue-700 bg-industrialBlue/80 hover:border-neonGreen px-8 py-3.5 rounded-xl font-bold transition flex items-center gap-2">
-                    <i class="fa-brands fa-whatsapp text-neonGreen text-xl"></i> Escribir al WhatsApp
-                </a>
+    <!-- Menú Lateral Deslizable Estilo App (Drawer) -->
+    <div id="menuLateral" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden transition-all" onclick="toggleMenuLateral()">
+        <div class="absolute top-0 left-0 bottom-0 w-80 bg-slate-900 border-r border-slate-800 p-5 flex flex-col shadow-2xl overflow-y-auto" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-4 mb-4">
+                <h3 class="font-black text-white text-base">Menú Institucional</h3>
+                <button onclick="toggleMenuLateral()" class="text-slate-400 hover:text-white font-bold text-lg">✕</button>
             </div>
-        </div>
-    </section>
-
-    <!-- Catálogo de Productos -->
-    <main id="catalogo" class="max-w-7xl mx-auto px-4 py-14">
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-            <div>
-                <h2 class="text-3xl font-black tracking-tight text-white">Nuestro Catálogo</h2>
-                <p class="text-slate-400 text-sm">Selecciona los productos que te interesan para cotizarlos al instante.</p>
-            </div>
-            <!-- Buscador -->
-            <div class="w-full md:w-80">
-                <div class="relative">
-                    <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </span>
-                    <input type="text" id="buscador" placeholder="Buscar taladro, set 150 pcs, ratchet..." class="w-full bg-industrialBlue border border-blue-800 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-neonGreen transition">
-                </div>
-            </div>
-        </div>
-
-        <!-- Filtros por Categoría -->
-        <div class="flex flex-wrap gap-2 mb-8" id="filtros-categoria">
-            <button data-cat="todos" class="px-5 py-2 rounded-xl text-sm font-bold bg-neonGreen text-industrialBlue transition shadow-md shadow-neonGreen/10">Todos</button>
-            <button data-cat="sets" class="px-5 py-2 rounded-xl text-sm font-semibold bg-industrialBlue border border-blue-800/80 text-slate-300 hover:border-neonGreen transition">Sets de Herramientas</button>
-            <button data-cat="bateria" class="px-5 py-2 rounded-xl text-sm font-semibold bg-industrialBlue border border-blue-800/80 text-slate-300 hover:border-neonGreen transition">A Batería / Inalámbricos</button>
-        </div>
-
-        <!-- Cuadrícula de Productos -->
-        <div id="grid-productos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Cargado automáticamente por JS -->
-        </div>
-    </main>
-
-    <!-- Sección de Cobertura y Envíos -->
-    <section id="envios" class="bg-industrialBlue/70 border-t border-b border-blue-900/50 py-14 px-4">
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-10">
-                <h2 class="text-2xl md:text-3xl font-black text-white">Modalidad de Entrega y Atención</h2>
-                <p class="text-slate-400 text-sm mt-1">Hacemos llegar tus herramientas de forma segura hasta donde estés</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-deepBlue p-6 rounded-2xl border border-blue-900/60">
-                    <div class="w-12 h-12 rounded-xl bg-neonGreen/10 border border-neonGreen/30 text-neonGreen flex items-center justify-center text-2xl mb-4">
-                        <i class="fa-solid fa-truck"></i>
-                    </div>
-                    <h3 class="font-bold text-lg text-white mb-2">Todo Costa Rica</h3>
-                    <p class="text-slate-400 text-sm">Realizamos envíos rápidos y seguros por medio de encomienda a cualquier parte del territorio nacional.</p>
-                </div>
-                <div class="bg-deepBlue p-6 rounded-2xl border border-blue-900/60">
-                    <div class="w-12 h-12 rounded-xl bg-neonGreen/10 border border-neonGreen/30 text-neonGreen flex items-center justify-center text-2xl mb-4">
-                        <i class="fa-solid fa-bus"></i>
-                    </div>
-                    <h3 class="font-bold text-lg text-white mb-2">Envíos a Nicaragua</h3>
-                    <p class="text-slate-400 text-sm">Coordinamos envíos directos y confiables hacia Nicaragua mediante servicio de bus.</p>
-                </div>
-                <div class="bg-deepBlue p-6 rounded-2xl border border-blue-900/60">
-                    <div class="w-12 h-12 rounded-xl bg-neonGreen/10 border border-neonGreen/30 text-neonGreen flex items-center justify-center text-2xl mb-4">
-                        <i class="fa-solid fa-store"></i>
-                    </div>
-                    <h3 class="font-bold text-lg text-white mb-2">Ubicación y Horario</h3>
-                    <p class="text-slate-400 text-sm">Estamos ubicados en <strong>San Ramón de Alajuela</strong>. Te atendemos en horario continuo de <strong>7:00 a.m. a 5:00 p.m.</strong></p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Sección de Contacto Directo -->
-    <section id="contacto" class="max-w-4xl mx-auto px-4 py-16">
-        <div class="bg-industrialBlue border border-blue-800/80 p-8 rounded-2xl shadow-2xl">
-            <h2 class="text-2xl md:text-3xl font-black mb-2 text-center text-white">Haz tu Pedido o Consulta</h2>
-            <p class="text-slate-400 text-sm text-center mb-8">Completa tus datos y te atenderemos por WhatsApp al instante.</p>
             
-            <form onsubmit="enviarFormulario(event)" class="space-y-4">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-300 mb-1">Tu Nombre</label>
-                        <input type="text" id="form-nombre" required placeholder="Ej. Carlos Méndez" class="w-full bg-deepBlue border border-blue-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-neonGreen">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-300 mb-1">Destino de Envío</label>
-                        <select id="form-destino" class="w-full bg-deepBlue border border-blue-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-neonGreen">
-                            <option value="Costa Rica (Encomienda)">Costa Rica (Por encomienda)</option>
-                            <option value="Nicaragua (Por bus)">Nicaragua (Por bus)</option>
-                            <option value="Retiro / San Ramón">San Ramón de Alajuela</option>
-                        </select>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-300 mb-1">¿Qué herramienta buscas o deseas pedir?</label>
-                    <textarea id="form-mensaje" rows="3" required placeholder="Escribe aquí los productos que necesitas..." class="w-full bg-deepBlue border border-blue-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-neonGreen"></textarea>
-                </div>
-                <button type="submit" class="w-full bg-neonGreen text-industrialBlue font-black py-3.5 rounded-xl hover:bg-neonAccent transition shadow-lg shadow-neonGreen/20 flex items-center justify-center gap-2">
-                    <i class="fa-brands fa-whatsapp text-xl"></i> Enviar Pedido por WhatsApp
-                </button>
-            </form>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-industrialBlue border-t border-blue-900/60 py-8 px-4 text-center text-xs text-slate-400 space-y-2">
-        <p class="font-bold text-white text-sm">Grupo Ferret — San Ramón de Alajuela</p>
-        <p>WhatsApp: +506 6410 1850 • Correo: grupoferret123@gmail.com • Horario: 7:00 a.m. a 5:00 p.m.</p>
-        <p class="text-slate-500 pt-2">&copy; 2026 Grupo Ferret. Todos los derechos reservados.</p>
-    </footer>
-
-    <!-- Panel Lateral (Drawer) del Carrito de Cotización -->
-    <div id="drawer-carrito" class="fixed inset-0 z-50 hidden">
-        <div onclick="toggleCarrito()" class="fixed inset-0 bg-black/70 backdrop-blur-sm"></div>
-        <div class="fixed right-0 top-0 bottom-0 w-full max-w-md bg-industrialBlue border-l border-blue-800 p-6 flex flex-col justify-between z-10 shadow-2xl">
-            <div>
-                <div class="flex justify-between items-center border-b border-blue-800 pb-4 mb-4">
-                    <h3 class="text-xl font-black text-white flex items-center gap-2">
-                        <i class="fa-solid fa-clipboard-list text-neonGreen"></i> Mi Lista de Pedido
-                    </h3>
-                    <button onclick="toggleCarrito()" class="text-slate-400 hover:text-white text-xl">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-                <div id="items-carrito" class="space-y-3 max-h-[60vh] overflow-y-auto pr-1">
-                    <!-- Productos añadidos -->
-                </div>
+            <p class="text-[11px] font-bold text-brandGreen uppercase tracking-wider mb-2">Categorías Activas</p>
+            <div class="flex flex-col gap-1 mb-6">
+                <button onclick="filtrarTab('todos', this); toggleMenuLateral();" class="text-left py-2.5 px-3 rounded-xl hover:bg-slate-800 text-xs font-semibold text-slate-300 flex justify-between items-center">📦 Todos los Productos <span>›</span></button>
+                <button onclick="filtrarTab('set', this); toggleMenuLateral();" class="text-left py-2.5 px-3 rounded-xl hover:bg-slate-800 text-xs font-semibold text-slate-300 flex justify-between items-center">🔧 Sets Manuales <span>›</span></button>
+                <button onclick="filtrarTab('inalambrico', this); toggleMenuLateral();" class="text-left py-2.5 px-3 rounded-xl hover:bg-slate-800 text-xs font-semibold text-slate-300 flex justify-between items-center">⚡ Inalámbricos <span>›</span></button>
+                <button onclick="filtrarTab('especial', this); toggleMenuLateral();" class="text-left py-2.5 px-3 rounded-xl hover:bg-slate-800 text-xs font-semibold text-slate-300 flex justify-between items-center">⚙️ Especiales <span>›</span></button>
             </div>
 
-            <div class="border-t border-blue-800 pt-4 space-y-3">
-                <p class="text-xs text-slate-400 text-center">Envía tu lista completa por WhatsApp para confirmarte precios y coordinar el envío.</p>
-                <button onclick="enviarCarritoWhatsApp()" class="w-full bg-neonGreen text-industrialBlue font-black py-3.5 rounded-xl hover:bg-neonAccent transition flex items-center justify-center gap-2 shadow-lg shadow-neonGreen/20">
-                    <i class="fa-brands fa-whatsapp text-xl"></i> Cotizar Todo por WhatsApp
-                </button>
+            <p class="text-[11px] font-bold text-brandGreen uppercase tracking-wider mb-2">Ubicación y Logística</p>
+            <div class="flex flex-col gap-1.5 text-xs text-slate-400 bg-slate-950 p-3.5 rounded-xl border border-slate-800 mb-4">
+                <p>📍 <strong>San Ramón de Alajuela:</strong> Plaza Comercial IPB</p>
+                <p>🇨🇷 <strong>Costa Rica:</strong> Envíos por encomienda nacional</p>
+                <p>🇳🇮 <strong>Nicaragua:</strong> Despachos coordinados por bus</p>
+                <p>🕒 <strong>Horario:</strong> 7:00 a.m. - 5:00 p.m.</p>
             </div>
         </div>
     </div>
 
-    <!-- Lógica de Productos y Carrito -->
-    <script>
-        const TELEFONO_WHATSAPP = "50664101850";
+    <!-- Banner Principal con Buscador Integrado -->
+    <section class="py-10 px-4 max-w-7xl mx-auto w-full">
+        <div class="bg-gradient-to-r from-emerald-950 via-slate-900 to-brandDark border border-brandGreen/30 rounded-3xl p-6 md:p-10 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="z-10 text-center md:text-left">
+                <span class="bg-brandGreen/20 text-brandGreen text-[10px] font-black uppercase px-3.5 py-1 rounded-full border border-brandGreen/30">Calidad Industrial Garantizada</span>
+                <h2 class="text-2xl md:text-5xl font-black text-white mt-3 mb-2 tracking-tight">Equipos y Herramientas Profesionales</h2>
+                <p class="text-slate-300 text-xs md:text-sm max-w-xl leading-relaxed">Selecciona tus herramientas, arma tu lista y cotiza de forma directa por WhatsApp en segundos.</p>
+            </div>
+            <div class="w-full md:w-80 relative z-10">
+                <input type="text" id="buscadorInput" onkeyup="filtrarProductos()" placeholder="🔍 ¿Qué herramienta buscas?" class="w-full bg-slate-950 border border-slate-700 focus:border-brandGreen focus:ring-2 focus:ring-brandGreen/20 rounded-2xl px-4 py-3.5 text-xs text-white placeholder-slate-400 outline-none shadow-xl">
+            </div>
+        </div>
+    </section>
 
-        // TUS 5 PRODUCTOS REALES (Extraídos de tus imágenes)
-        // Nota: Cuando subas tus propias fotos a GitHub, cambia el enlace de "imagen" por "imagenes/foto1.jpg", etc.
-        const productos = [
-            {
-                id: 1,
-                nombre: "Set completo de herramientas 145 Pcs",
-                categoria: "sets",
-                precio: "Consultar precio",
-                imagen: "imagenes/set-145.jpg", 
-                fallbackImagen: "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&q=80",
-                descripcion: "1/2 y 1/4. Cubos largos y cortos, extensiones, borracho, juego de alicates, destornilladores, llaves Allen, juego de puntas, linterna y espejo."
-            },
-            {
-                id: 2,
-                nombre: "Set de herramientas tipo acordeón 85 Pcs",
-                categoria: "sets",
-                precio: "Consultar precio",
-                imagen: "imagenes/set-acordeon.jpg",
-                fallbackImagen: "https://images.unsplash.com/photo-1540339832862-47359bc43939?auto=format&fit=crop&w=600&q=80",
-                descripcion: "Caja metálica tipo acordeón 1/2 y 1/4. Incluye juego de llaves, juego de cubos, alicates, llaves Allen, cinta métrica y navaja."
-            },
-            {
-                id: 3,
-                nombre: "Set completo de herramientas 150 Pcs",
-                categoria: "sets",
-                precio: "Consultar precio",
-                imagen: "imagenes/set-150.jpg",
-                fallbackImagen: "https://images.unsplash.com/photo-1530124566582-a618bc2615dc?auto=format&fit=crop&w=600&q=80",
-                descripcion: "Medidas 1/2, 3/8 y 1/4. Incluye piqueta, juego de llaves, cubos largos y cortos, extensiones, borracho, llaves Allen, puntas y alicates."
-            },
-            {
-                id: 4,
-                nombre: "Ratchet de batería 100 Nm (XCORT)",
-                categoria: "bateria",
-                precio: "Consultar precio",
-                imagen: "imagenes/ratchet-bateria.jpg",
-                fallbackImagen: "https://images.unsplash.com/photo-1572981779307-38b8cabb2407?auto=format&fit=crop&w=600&q=80",
-                descripcion: "Potente ratchet inalámbrico de 100 Nm de torque. Incluye 2 baterías recargables, cargador y estuche rígido de transporte."
-            },
-            {
-                id: 5,
-                nombre: "Taladro de batería 21V (XCORT)",
-                categoria: "bateria",
-                precio: "Consultar precio",
-                imagen: "imagenes/taladro-bateria.jpg",
-                fallbackImagen: "https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&w=600&q=80",
-                descripcion: "Taladro inalámbrico profesional de 21V. Incluye 2 baterías de 2.0Ah, cargador rápido y maletín de lona resistente."
-            }
-        ];
+    <!-- Catálogo Principal Grid -->
+    <main class="max-w-7xl mx-auto px-4 py-4 flex-grow w-full">
+        <div class="flex justify-between items-center mb-6">
+            <h3 id="seccionTitulo" class="text-xl font-black text-white tracking-wide">Inventario Activo</h3>
+            <span id="contadorResultados" class="text-xs font-semibold text-slate-400 bg-slate-900 px-3.5 py-1.5 rounded-xl border border-slate-800 shadow-sm">6 productos</span>
+        </div>
 
-        let categoriaActual = 'todos';
-        let textoBusqueda = '';
-        let carrito = [];
-
-        const gridProductos = document.getElementById('grid-productos');
-        const buscador = document.getElementById('buscador');
-        const botonesFiltro = document.querySelectorAll('#filtros-categoria button');
-
-        function mostrarProductos() {
-            gridProductos.innerHTML = '';
+        <div id="gridProductos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             
-            const filtrados = productos.filter(p => {
-                const coincideCat = categoriaActual === 'todos' || p.categoria === categoriaActual;
-                const coincideTexto = p.nombre.toLowerCase().includes(textoBusqueda.toLowerCase()) || p.descripcion.toLowerCase().includes(textoBusqueda.toLowerCase());
-                return coincideCat && coincideTexto;
-            });
+            <!-- Producto 1 -->
+            <div class="producto-card bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col shadow-xl" data-categoria="set" data-id="prod-1" data-nombre="set de herramientas principal maletín">
+                <div class="relative bg-slate-950 h-56 cursor-pointer animate-pulse" onclick="abrirModal('imagenes/Caja 1.jpeg', 'Set de Herramientas Principal')">
+                    <img src="imagenes/Caja 1.jpeg" alt="Set Principal" loading="lazy" onload="this.parentElement.classList.remove('animate-pulse')" onerror="this.src='https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=600&auto=format&fit=crop&q=60'; this.parentElement.classList.remove('animate-pulse'); this.onerror=null;" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                    <span class="absolute top-3 left-3 bg-brandDark/90 backdrop-blur text-brandGreen border border-brandGreen/30 text-[10px] font-black px-2.5 py-1 rounded-lg uppercase">Set Profesional</span>
+                    <button onclick="event.stopPropagation(); toggleFavorito('Set de Herramientas Principal', this)" class="absolute top-3 right-3 bg-slate-950/80 backdrop-blur text-slate-300 hover:text-red-400 w-8 h-8 rounded-full flex items-center justify-center border border-slate-700 text-sm transition-all">♡</button>
+                </div>
+                <div class="p-5 flex flex-col flex-grow">
+                    <span class="text-[10px] text-slate-500 font-mono mb-1">REF: GF-001</span>
+                    <h4 class="text-sm font-bold text-white mb-1.5">Set de Herramientas Principal</h4>
+                    <p class="text-slate-400 text-xs mb-4 flex-grow leading-relaxed">Maletín completo de alta resistencia para uso mecánico e industrial intensivo.</p>
+                    
+                    <!-- Selector de Cantidad en Tarjeta -->
+                    <div class="flex items-center justify-between bg-slate-950 p-2 rounded-xl border border-slate-800 mb-3">
+                        <span class="text-[11px] text-slate-400 font-medium">Cantidad:</span>
+                        <div class="flex items-center gap-2">
+                            <button onclick="cambiarCantCard('card-1', -1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded-lg font-bold text-xs">-</button>
+                            <span id="cant-card-1" class="w-4 text-center text-white font-bold text-xs">1</span>
+                            <button onclick="cambiarCantCard('card-1', 1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded-lg font-bold text-xs">+</button>
+                        </div>
+                    </div>
 
-            if (filtrados.length === 0) {
-                gridProductos.innerHTML = <div class="col-span-full text-center py-10 text-slate-400">No se encontraron herramientas con esa búsqueda.</div>;
-                return;
-            }
+                    <button id="btn-prod-1" onclick="agregarCotizacionDesdeCard('Set de Herramientas Principal', 'card-1', 'btn-prod-1')" class="w-full bg-slate-800 hover:bg-brandGreen hover:text-slate-950 text-slate-200 font-bold py-2.5 rounded-xl text-xs transition-all border border-slate-700 shadow-md">
+                        ➕ Añadir a Cotización
+                    </button>
+                </div>
+            </div>
 
-            filtrados.forEach(p => {
-                const etiquetaCat = p.categoria === 'sets' ? 'Set Manual' : 'A Batería';
-                const card = document.createElement('div');
-                card.className = "bg-industrialBlue border border-blue-900/70 rounded-2xl overflow-hidden hover:border-neonGreen transition flex flex-col justify-between shadow-lg";
-                card.innerHTML = `
-                    <div>
-                        <div class="h-52 overflow-hidden bg-deepBlue relative">
-                            <img src="${p.imagen}" onerror="this.onerror=null;this.src='${p.fallbackImagen}';" alt="${p.nombre}" class="w-full h-full object-cover hover:scale-105 transition duration-300">
+            <!-- Producto 2 -->
+            <div class="producto-card bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col shadow-xl" data-categoria="set" data-id="prod-2" data-nombre="set de herramientas tipo acordeon caja metalica">
+                <div class="relative bg-slate-950 h-56 cursor-pointer animate-pulse" onclick="abrirModal('imagenes/Caja 2.jpeg', 'Set de Herramientas Tipo Acordeón')">
+                    <img src="imagenes/Caja 2.jpeg" alt="Tipo Acordeón" loading="lazy" onload="this.parentElement.classList.remove('animate-pulse')" onerror="this.src='https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=600&auto=format&fit=crop&q=60'; this.parentElement.classList.remove('animate-pulse'); this.onerror=null;" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                    <span class="absolute top-3 left-3 bg-brandDark/90 backdrop-blur text-brandGreen border border-brandGreen/30 text-[10px] font-black px-2.5 py-1 rounded-lg uppercase">Set Profesional</span>
+                    <button onclick="event.stopPropagation(); toggleFavorito('Set Tipo Acordeón', this)" class="absolute top-3 right-3 bg-slate-950/80 backdrop-blur text-slate-300 hover:text-red-400 w-8 h-8 rounded-full flex items-center justify-center border border-slate-700 text-sm transition-all">♡</button>
+                </div>
+                <div class="p-5 flex flex-col flex-grow">
+                    <span class="text-[10px] text-slate-500 font-mono mb-1">REF: GF-002</span>
+                    <h4 class="text-sm font-bold text-white mb-1.5">Set de Herramientas Tipo Acordeón</h4>
+                    <p class="text-slate-400 text-xs mb-4 flex-grow leading-relaxed">Excelente distribución de piezas en caja metálica desplegable ultra resistente.</p>
+                    
+                    <div class="flex items-center justify-between bg-slate-950 p-2 rounded-xl border border-slate-800 mb-3">
+                        <span class="text-[11px] text-slate-400 font-medium">Cantidad:</span>
+                        <div class="flex items-center gap-2">
+                            <button onclick="cambiarCantCard('card-2', -1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded-lg font-bold text-xs">-</button>
+                            <span id="cant-card-2" class="w-4 text-center text-white font-bold text-xs">1</span>
+                            <button onclick="cambiarCantCard('card-2', 1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded-lg font-bold text-xs">+</button>
+                        </div>
+                    </div>
+
+                    <button id="btn-prod-2" onclick="agregarCotizacionDesdeCard('Set Tipo Acordeón', 'card-2', 'btn-prod-2')" class="w-full bg-slate-800 hover:bg-brandGreen hover:text-slate-950 text-slate-200 font-bold py-2.5 rounded-xl text-xs transition-all border border-slate-700 shadow-md">
+                        ➕ Añadir a Cotización
+                    </button>
+                </div>
+            </div>
+
+            <!-- Producto 3 -->
+            <div class="producto-card bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col shadow-xl" data-categoria="set" data-id="prod-3" data-nombre="set de herramientas multiples medidas cubos">
+                <div class="relative bg-slate-950 h-56 cursor-pointer animate-pulse" onclick="abrirModal('imagenes/Caja 3.jpeg', 'Set de Herramientas Múltiples Medidas')">
+                    <img src="imagenes/Caja 3.jpeg" alt="Múltiples Medidas" loading="lazy" onload="this.parentElement.classList.remove('animate-pulse')" onerror="this.src='https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=600&auto=format&fit=crop&q=60'; this.parentElement.classList.remove('animate-pulse'); this.onerror=null;" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                    <span class="absolute top-3 left-3 bg-brandDark/90 backdrop-blur text-brandGreen border border-brandGreen/30 text-[10px] font-black px-2.5 py-1 rounded-lg uppercase">Set Completo</span>
+                    <button onclick="event.stopPropagation(); toggleFavorito('Set Múltiples Medidas', this)" class="absolute top-3 right-3 bg-slate-950/80 backdrop-blur text-slate-300 hover:text-red-400 w-8 h-8 rounded-full flex items-center justify-center border border-slate-700 text-sm transition-all">♡</button>
+                </div>
+                <div class="p-5 flex flex-col flex-grow">
+                    <span class="text-[10px] text-slate-500 font-mono mb-1">REF: GF-003</span>
+                    <h4 class="text-sm font-bold text-white mb-1.5">Set de Herramientas Múltiples Medidas</h4>
+                    <p class="text-slate-400 text-xs mb-4 flex-grow leading-relaxed">Medidas 1/2", 3/8" y 1/4" para todo tipo de trabajo y taller mecánico.</p>
+                    
+                    <div class="flex items-center justify-between bg-slate-950 p-2 rounded-xl border border-slate-800 mb-3">
+                        <span class="text-[11px] text-slate-400 font-medium">Cantidad:</span>
+                        <div class="flex items-center gap-2">
+                            <button onclick="cambiarCantCard('card-3', -1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded-lg font-bold text-xs">-</button>
+                            <span id="cant-card-3" class="w-4 text-center text-white font-bold text-xs">1</span>
+                            <button onclick="cambiarCantCard('card-3', 1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded-lg font-bold text-xs">+</button>
+                        </div>
+                    </div>
+
+                    <button id="btn-prod-3" onclick="agregarCotizacionDesdeCard('Set Múltiples Medidas', 'card-3', 'btn-prod-3')" class="w-full bg-slate-800 hover:bg-brandGreen hover:text-slate-950 text-slate-200 font-bold py-2.5 rounded-xl text-xs transition-all border border-slate-700 shadow-md">
+                        ➕ Añadir a Cotización
+                    </button>
+                </div>
+            </div>
+
+            <!-- Producto 4 -->
+            <div class="producto-card bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col shadow-xl" data-categoria="inalambrico" data-id="prod-4" data-nombre="ratchet de bateria inalambrico">
+                <div class="relative bg-slate-950 h-56 cursor-pointer animate-pulse" onclick="abrirModal('imagenes/Caja 4.jpeg', 'Ratchet de Batería')">
+                    <img src="imagenes/Caja 4.jpeg" alt="Ratchet de Batería" loading="lazy" onload="this.parentElement.classList.remove('animate-pulse')" onerror="this.src='https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=600&auto=format&fit=crop&q=60'; this.parentElement.classList.remove('animate-pulse'); this.onerror=null;" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                    <span class="absolute top-3 left-3 bg-brandDark/90 backdrop-blur text-brandGreen border border-brandGreen/30 text-[10px] font-black px-2.5 py-1 rounded-lg uppercase">Inalámbrico</span>
+                    <button onclick="event.stopPropagation(); toggleFavorito('Ratchet de Batería', this)" class="absolute top-3 right-3 bg-slate-950/80 backdrop-blur text-slate-300 hover:text-red-400 w-8 h-8 rounded-full flex items-center justify-center border border-slate-700 text-sm transition-all">♡</button>
+                </div>
+                <div class="p-5 flex flex-col flex-grow">
+                    <span class="text-[10px] text-slate-500 font-mono mb-1">REF: GF-004</span>
+                    <h4 class="text-sm font-bold text-white mb-1.5">Ratchet de Batería</h4>
+                    <p class="text-slate-400 text-xs mb-4 flex-grow leading-relaxed">Potente ratchet inalámbrico con batería recargable y estuche rígido de transporte.</p>
+                    
+                    <div class="flex items-center justify-between bg-slate-950 p-2 rounded-xl border border-slate-800 mb-3">
+                        <span class="text-[11px] text-slate-400 font-medium">Cantidad:</span>
+                        <div class="flex items-center gap-2">
+                            <button onclick="cambiarCantCard('card-4', -1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded-lg font-bold text-xs">-</button>
+                            <span id="cant-card-4" class="w-4 text-center text-white font-bold text-xs">1</span>
+                            <button onclick="cambiarCantCard('card-4', 1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded-lg font-bold text-xs">+</button>
+                        </div>
+                    </div>
+
+                    <button id="btn-prod-4" onclick="agregarCotizacionDesdeCard('Ratchet de Batería', 'card-4', 'btn-prod-4')" class="w-full bg-slate-800 hover:bg-brandGreen hover:text-slate-950 text-slate-200 font-bold py-2.5 rounded-xl text-xs transition-all border border-slate-700 shadow-md">
+                        ➕ Añadir a Cotización
+                    </button>
+                </div>
+            </div>
+
+            <!-- Producto 5 -->
+            <div class="p
